@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kalaha;
+package ai;
+
+import kalaha.GameState;
 
 
 
@@ -22,7 +24,7 @@ public class MinMaxTree {
         m_depthLevel = depthLevel;
         m_RootNode = new Node();
         m_RootNode.m_State = currentState;
-        m_Player 
+        m_Player = player;
         
         //Root node = First game state
         //Create 6 children with the possible moves
@@ -34,12 +36,12 @@ public class MinMaxTree {
     {
         int BestMove = -1;
         
-        EvaluateNode(5, parent);
+        BestMove = EvaluateMove(5, parent);
         
         return BestMove;
     }
     
-    int EvaluateMove(int level, Node node)
+   public int EvaluateMove(int level, Node node)
     {
         int BestScore = 0;
         int ReturnScore = 0;
@@ -60,10 +62,10 @@ public class MinMaxTree {
             
             if(level > 0) {
                 ReturnScore = EvaluateMove(level-1, node.m_Children[i]);
-                node.m_State.
+                //node.m_State.
             }
         }
         
-        return Score;
+        return BestScore;
     }
 }
