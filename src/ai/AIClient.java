@@ -226,4 +226,15 @@ public class AIClient implements Runnable
     {
         return 1 + (int)(Math.random() * 6);
     }
+    
+    /**
+     * Return a new generated MinMax Tree of the gameState.
+     *
+     * @param depthLevels How many levels deep you want the MinMaxTree to be.
+     * @return MinMax tree over the gameState.
+     */
+    public minMaxTree generateMinMaxTree(int depthLevels)
+    {
+        
+    }
 }
