@@ -214,7 +214,7 @@ public class AIClient implements Runnable
     {
         int myMove = getRandom();
 
-
+        MinMax m = new MinMax(player, 5);
         return myMove;
     }
     

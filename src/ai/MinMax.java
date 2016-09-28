@@ -1,5 +1,6 @@
 package ai;
 import ai.Node.*;
+import ai.AIClient;
 
 public class MinMax {
     // Player är vilken spelarnummer vår bot har.
@@ -27,7 +28,8 @@ public class MinMax {
         if(depth < m_maxDepth) {
             RecursiveNodeSearch(player, depth-1);
         }
-        
+               System.out.println(depth);
+
         
         return depth;
     }
