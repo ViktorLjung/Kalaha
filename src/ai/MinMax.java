@@ -38,8 +38,10 @@ public class MinMax {
     }
     
     public int GetNextMove() {
+      //  System.out.println("---------------------");
+      //  System.out.println("Starting new tree");
+      //  System.out.println("---------------------");
         RecursiveNodeSearch(m_Player, 0, m_RootNode);
-        
         return m_BestMove;
     }
     
@@ -69,7 +71,7 @@ public class MinMax {
                 }
                 else {
                     //Annars skriver vi att det var ett illegal move.
-                    System.out.println("Illegal move: " + i + " at depth: " + depth);
+                    //System.out.println("Illegal move: " + i + " at depth: " + depth);
                 }
             }
             
@@ -84,33 +86,41 @@ public class MinMax {
             for(int i = 1; i <= 6; i++) {
                 
                 if(node.getChild(i) == null){
-                    System.out.println("Illegal move: " + i);
                     continue;
                 }
                 
                 if(!firstSet) {
                     bestScore = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, node.getChild(i));
-                    m_BestMove = i;
+                    if(node == m_RootNode) {
+                            m_BestMove = i;
+                        }
                     firstSet = true;
                     continue;
                 }
                 
                 int score = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, node.getChild(i));
                 
-                if(m_Player == node.getChild(i).m_GameState.getNextPlayer()) {
+                if(m_Player == player) {
                     if(score > bestScore) {
                         bestScore = score;
-                        m_BestMove = i;
-                        System.out.println("Player: " + node.m_GameState.getNextPlayer() + " Next Player: " + node.getChild(i).m_GameState.getNextPlayer());
+                        
+                        if(node == m_RootNode) {
+                            m_BestMove = i;
+                        }
                     }
                 } else { // other player wants negative score
                     if(score < bestScore) {
                         bestScore = score;
-                        m_BestMove = i;
+                        if(node == m_RootNode) {
+                            m_BestMove = i;
+                        }
                     }
                 }
+                //System.out.println("Node: " + i + " Depth: " + depth + " Score: " + score);
+                
             }
-            
+           // System.out.println("Best score: " + bestScore + " Best move: " + m_BestMove);
+            return bestScore;
         }
         
         return node.getScore(m_Player);
