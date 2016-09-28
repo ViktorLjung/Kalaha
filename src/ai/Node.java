@@ -13,4 +13,8 @@ public class Node {
     void AddChild(Node child, int index) {
         m_Children.setElementAt(child, index);
     }
+    
+    int getScore(int player) {
+        return m_GameState.getScore(player);
+    }
 }
