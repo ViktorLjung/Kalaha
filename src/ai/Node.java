@@ -8,6 +8,10 @@ public class Node {
     
     public Node() {
         m_Children = new Vector<Node>(6);
+        for(int i = 0; i < 6; i++) {
+            m_Children.add(null);
+        }
+        
     }
     
     public void AddChild(Node child, int index) {
