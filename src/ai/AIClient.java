@@ -212,7 +212,14 @@ public class AIClient implements Runnable
      */
     public int getMove(GameState currentBoard)
     {
-        int myMove = getRandom();
+        //int myMove = getRandom();
+        addText("Initializing tree.");
+        MinMaxTree tree = new MinMaxTree(5, currentBoard, player);
+        addText("Searching for next move.");
+        int myMove = tree.SearchNextMove();
+        addText("Next move is: " + myMove);
+
+
         return myMove;
     }
     
