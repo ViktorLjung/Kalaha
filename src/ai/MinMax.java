@@ -31,9 +31,9 @@ public class MinMax {
         
         //Skicka in våran node som håller vårat current board state till vår
         //Rekursiva funktion.
-        int d = RecursiveNodeSearch(m_Player, 0, m_RootNode);
-        System.out.println(d);
     }
+    
+    
     
     // Player är den spelare som skall göra moven från detta board state.
     // depth är vilken nivå i trädet vi söker på just nu.
@@ -67,31 +67,25 @@ public class MinMax {
             // Kalla denna rekursiva funktion igen för alla barnen.
             for(int i = 1; i <= 6; i++) {
                 if(node.getChild(i) != null) {
+                    System.out.println("Recursive shit.");
                     if(RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth+1, node.getChild(i)) == LOSS) {
+                        System.out.println("Last depth found.");
                         break;
                     }
                 }
             }
-            
+            System.out.println("Return Best child");
             return GetBestChild(node);
         }
-        
+        System.out.println("Returning loss");
         return LOSS;
-        
-        // När vi är på vårt maxDepth, alltså sista nivån i trädet som vi skall söka till
-        // så skall vi kolla hur bra detta board state är och om det är det bästa skicka vidare resultaten.
-        
-        System.out.println(depth);
-
-        
-        return depth;
     }
     
     // Returns the child node that gives the most score to the current player
     public int GetBestChild(Node node) 
     {
         int bestScore = LOSS;
-        for(int i = 0; i < 6; i++) {
+        for(int i = 1; i <= 6; i++) {
             if(node.getChild(i) != null) {
              int score = node.getScore(node.getChild(i).getScore(node.m_GameState.getNextPlayer()));
             

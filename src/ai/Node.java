@@ -26,7 +26,7 @@ public class Node {
         Node node = m_Children.get(index-1);
         
         if(node == null) {
-            System.out.print("Child " + index + "is invalid");
+            //System.out.print("Child " + index + " is invalid.");
         }
         
         return node;
