@@ -1,14 +1,7 @@
 package ai;
 import ai.AIClient.*;
 import kalaha.*;
-
-
-class Node {
-    
-    vector<Node> Children;
-    
-    GameState m_State = null;
-}
+import Node.*;
 
 public class MinMax {
     // Player är vilken spelarnummer vår bot har.
