@@ -1,7 +1,5 @@
 package ai;
-import ai.AIClient.*;
-import kalaha.*;
-import Node.*;
+import ai.Node.*;
 
 public class MinMax {
     // Player är vilken spelarnummer vår bot har.
