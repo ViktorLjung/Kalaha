@@ -22,6 +22,7 @@ public class MinMax {
     
     //Initialize bestMove to an invalid move
     public int m_BestMove = -1;
+    long startT;
     
     public MinMax(int player, int maxDepth, GameState currentBoardState)
     {
@@ -41,7 +42,16 @@ public class MinMax {
       //  System.out.println("---------------------");
       //  System.out.println("Starting new tree");
       //  System.out.println("---------------------");
-        RecursiveNodeSearch(m_Player, 0, m_RootNode);
+      
+      //itterative deepening?
+       // startT = System.currentTimeMillis();
+        //while(System.currentTimeMillis() - startT < 1000) {
+         //   m_maxDepth++;
+        //    System.out.println("Depth: " + m_maxDepth);
+        
+            RecursiveNodeSearch(m_Player, 0, m_RootNode);
+            
+      //  }
         return m_BestMove;
     }
     
@@ -55,7 +65,6 @@ public class MinMax {
         //Detta gör att vi kommer hamna längst ner i vårt träd, sedan börja rekusivt att ta det bästa resultatet här nerifrån.
        // System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
         if(depth < m_maxDepth) {
-            
             //Vi har ännu inte nått vårat sista barn, så gör 6 nya nodes som är olika moves som görs till våra nya barn.
             for(int i = 1; i <= 6; i++){
                 // Skapa ett nytt barn som vi kan använda för att kolla om vårt nya move är bättre.
