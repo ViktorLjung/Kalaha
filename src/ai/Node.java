@@ -6,7 +6,7 @@ public class Node {
     Vector<Node> m_Children;
     GameState m_GameState;
     
-    public Node(Node parent) {
+    public Node() {
         m_Children = new Vector<Node>(6);
     }
     
