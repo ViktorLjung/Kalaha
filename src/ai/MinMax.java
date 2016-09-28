@@ -62,9 +62,21 @@ public class MinMax {
                     System.out.println("Illegal move: " + i);
                 }
             }
+            
             //Nu har vi gjort upp mot 6 nya child nodes.
             // Kalla denna rekursiva funktion igen för alla barnen.
+            for(int i = 1; i <= 6; i++) {
+                if(node.getChild(i) != null) {
+                    if(RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth+1, node.getChild(i)) == LOSS) {
+                        break;
+                    }
+                }
+            }
+            
+            return GetBestChild(node);
         }
+        
+        return LOSS;
         
         // När vi är på vårt maxDepth, alltså sista nivån i trädet som vi skall söka till
         // så skall vi kolla hur bra detta board state är och om det är det bästa skicka vidare resultaten.
@@ -78,7 +90,7 @@ public class MinMax {
     // Returns the child node that gives the most score to the current player
     public Node GetBestChild(Node node) 
     {
-        int bestScore = -100000;
+        int bestScore = LOSS;
         Node BestChild = null;
         for(int i = 0; i < 6; i++) {
             if(node.getChild(i) != null) {
