@@ -6,6 +6,9 @@ import kalaha.GameState;
 public class MinMax {
     // Player är vilken spelarnummer vår bot har.
     private int m_Player;
+    // Other Player
+    private int m_OtherPlayer;
+    
     // maxDepth är hur långt ner trädet kommer att söka.
     private int m_maxDepth;
     
@@ -21,6 +24,7 @@ public class MinMax {
     {
         // Först initializerar vi våra variabler.
         m_Player = player;
+        m_OtherPlayer = 2 / player;
         m_maxDepth = maxDepth;
         m_RootNode = new ai.Node();
         m_RootNode.m_GameState = currentBoardState;
@@ -69,5 +73,23 @@ public class MinMax {
 
         
         return depth;
+    }
+    
+    // Returns the child node that gives the most score to the current player
+    public Node GetBestChild(Node node) 
+    {
+        int bestScore = -100000;
+        int bestIndex = -1;
+        for(int i = 0; i < 6; i++) {
+            if(node.getChild(i) != null) {
+             int score = node.getScore(node.getChild(i).getScore(node.m_GameState.getNextPlayer()));
+            
+            if(score > bestScore) {
+                bestScore = score;
+                bestIndex = i;
+                }
+            }
+        }
+        return node.m_Children.get(bestIndex);
     }
 }

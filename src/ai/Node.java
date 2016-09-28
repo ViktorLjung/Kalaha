@@ -10,7 +10,23 @@ public class Node {
         m_Children = new Vector<Node>(6);
     }
     
-    void AddChild(Node child, int index) {
+    public void AddChild(Node child, int index) {
         m_Children.setElementAt(child, index);
     }
+    
+    public int getScore(int player) {
+        return m_GameState.getScore(player);
+    }
+    
+    public Node getChild(int index) {
+        Node node = m_Children.get(index);
+        
+        if(node == null) {
+            System.out.print("Child " + index + "is invalid");
+        }
+        
+        return node;
+    }
+    
+    
 }
