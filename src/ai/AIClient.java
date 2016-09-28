@@ -212,7 +212,14 @@ public class AIClient implements Runnable
      */
     public int getMove(GameState currentBoard)
     {
-        int myMove = getRandom();
+        //int myMove = getRandom();
+        addText("Initializing tree.");
+        MinMaxTree tree = new MinMaxTree(5, currentBoard, player);
+        addText("Searching for next move.");
+        int myMove = tree.SearchNextMove();
+        addText("Next move is: " + myMove);
+
+
         return myMove;
     }
     
@@ -225,16 +232,5 @@ public class AIClient implements Runnable
     public int getRandom()
     {
         return 1 + (int)(Math.random() * 6);
-    }
-    
-    /**
-     * Return a new generated MinMax Tree of the gameState.
-     *
-     * @param depthLevels How many levels deep you want the MinMaxTree to be.
-     * @return MinMax tree over the gameState.
-     */
-    public minMaxTree generateMinMaxTree(int depthLevels)
-    {
-        
     }
 }

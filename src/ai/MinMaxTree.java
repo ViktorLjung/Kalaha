@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kalaha;
-
+/*
+package ai;
+import ai.AIClient.*;
+import kalaha.*;
 
 
 class Node {
@@ -21,8 +23,9 @@ public class MinMaxTree {
     {
         m_depthLevel = depthLevel;
         m_RootNode = new Node();
+        m_RootNode.m_Children = new Node[6];
         m_RootNode.m_State = currentState;
-        m_Player 
+        m_Player = player;
         
         //Root node = First game state
         //Create 6 children with the possible moves
@@ -30,12 +33,12 @@ public class MinMaxTree {
         //When done go back and calculate the score.
     }
     
-    public int SearchNextMove(Node parent) 
+    public int SearchNextMove() 
     {
         int BestMove = -1;
-        
-        EvaluateNode(5, parent);
-        
+                //System.out.println("New search for move -------");
+
+        BestMove = EvaluateMove(5, m_RootNode);
         return BestMove;
     }
     
@@ -43,27 +46,42 @@ public class MinMaxTree {
     {
         int BestScore = 0;
         int ReturnScore = 0;
-        int BestMove = -1;
+        int BestMove = -1000000;
         
         level--;
         for(int i = 0; i < 6; i++)
         {
+            
             //Make sure the move we wanna try is valid
-            if(!node.m_State.moveIsPossible(i)){
+            if(!node.m_State.moveIsPossible(i+1)){
                 continue;
             }
+            
+            //Create a new node where we make some move.
             Node cNode = new Node();
+            cNode.m_Children = new Node[6];
             cNode.m_State = node.m_State.clone();
-            cNode.m_State.makeMove(i);
+            cNode.m_State.makeMove(i+1);
             
+            //Save the child so we can access it later.
             node.m_Children[i] = cNode;
-            
+
             if(level > 0) {
+                //Evaluate this childs nodes.
+                //System.out.println("Level: " + level + "  -  Child: " + i );
                 ReturnScore = EvaluateMove(level-1, node.m_Children[i]);
-                node.m_State.
+                if(BestScore < ReturnScore) {
+                    BestScore = ReturnScore;
+                    BestMove = i+1;
+                }
+            }
+            else {
+                System.out.println(node.m_Children[i].m_State.getScore(m_Player) + ":" + node.m_Children[i].m_State.getScore(2/m_Player));
+                return node.m_Children[i].m_State.getScore(m_Player) - node.m_Children[i].m_State.getScore(2/m_Player);
             }
         }
         
-        return Score;
+        return BestMove;
     }
 }
+*/
