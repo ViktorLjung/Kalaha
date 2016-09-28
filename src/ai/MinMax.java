@@ -51,19 +51,20 @@ public class MinMax {
     }
     
     // Returns the child node that gives the most score to the current player
-    public Node GetBestMove(Node node) 
+    public Node GetBestChild(Node node) 
     {
         int bestScore = -100000;
         int bestIndex = -1;
         for(int i = 0; i < 6; i++) {
-            int score = node.getScore(node.m_GameState.getNextPlayer());
+            if(node.getChild(i) != null) {
+             int score = node.getScore(node.getChild(i).getScore(node.m_GameState.getNextPlayer()));
             
             if(score > bestScore) {
                 bestScore = score;
                 bestIndex = i;
+                }
             }
         }
-        
-        return node.m_Children.elementAt(bestIndex);
+        return node.m_Children.get(bestIndex);
     }
 }
