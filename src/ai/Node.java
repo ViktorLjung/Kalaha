@@ -11,7 +11,7 @@ public class Node {
     }
     
     public void AddChild(Node child, int index) {
-        m_Children.setElementAt(child, index);
+        m_Children.setElementAt(child, index-1);
     }
     
     public int getScore(int player) {
@@ -19,7 +19,7 @@ public class Node {
     }
     
     public Node getChild(int index) {
-        Node node = m_Children.get(index);
+        Node node = m_Children.get(index-1);
         
         if(node == null) {
             System.out.print("Child " + index + "is invalid");

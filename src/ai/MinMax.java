@@ -54,17 +54,17 @@ public class MinMax {
     public Node GetBestChild(Node node) 
     {
         int bestScore = -100000;
-        int bestIndex = -1;
+        Node BestChild = null;
         for(int i = 0; i < 6; i++) {
             if(node.getChild(i) != null) {
              int score = node.getScore(node.getChild(i).getScore(node.m_GameState.getNextPlayer()));
             
             if(score > bestScore) {
                 bestScore = score;
-                bestIndex = i;
+                BestChild = node.getChild(i);
                 }
             }
         }
-        return node.m_Children.get(bestIndex);
+        return BestChild;
     }
 }
