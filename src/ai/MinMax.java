@@ -37,9 +37,34 @@ public class MinMax {
     {
         //Vi kallar sedan denna funktion så länge vi inte har kommit till vårt max depth.
         //Detta gör att vi kommer hamna längst ner i vårt träd, sedan börja rekusivt att ta det bästa resultatet här nerifrån.
+        System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
         if(depth < m_maxDepth) {
-            RecursiveNodeSearch(player, depth+1, node);
+            
+            //Vi har ännu inte nått vårat sista barn, så gör 6 nya nodes som är olika moves som görs till våra nya barn.
+            for(int i = 1; i <= 6; i++){
+                // Skapa ett nytt barn som vi kan använda för att kolla om vårt nya move är bättre.
+                Node child = new Node();
+                //Clona över vårat current gamestate till vårt nya barn.
+                child.m_GameState = node.m_GameState.clone();
+                //Kolla om vårt move är möjligt.
+                if(child.m_GameState.moveIsPossible(i)) {
+                    // Om vårt teoretiska move är möjligt så gör det och adda detta som ett legitimt barn till vår parent node.
+                    child.m_GameState.makeMove(i);
+                    System.out.println("Possible move: " + i);
+                    node.AddChild(child, i);
+                }
+                else {
+                    //Annars skriver vi att det var ett illegal move.
+                    System.out.println("Illegal move: " + i);
+                }
+            }
+            //Nu har vi gjort upp mot 6 nya child nodes.
+            // Kalla denna rekursiva funktion igen för alla barnen.
         }
+        
+        // När vi är på vårt maxDepth, alltså sista nivån i trädet som vi skall söka till
+        // så skall vi kolla hur bra detta board state är och om det är det bästa skicka vidare resultaten.
+        
         System.out.println(depth);
 
         
