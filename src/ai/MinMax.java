@@ -20,6 +20,9 @@ public class MinMax {
     private int WIN = 1000000;
     private int LOSS = -1000000;
     
+    //Initialize bestMove to an invalid move
+    public int m_BestMove = -1;
+    
     public MinMax(int player, int maxDepth, GameState currentBoardState)
     {
         // Först initializerar vi våra variabler.
@@ -31,6 +34,13 @@ public class MinMax {
         
         //Skicka in våran node som håller vårat current board state till vår
         //Rekursiva funktion.
+        
+    }
+    
+    public int GetNextMove() {
+        RecursiveNodeSearch(m_Player, 0, m_RootNode);
+        
+        return m_BestMove;
     }
     
     
@@ -41,7 +51,7 @@ public class MinMax {
     {
         //Vi kallar sedan denna funktion så länge vi inte har kommit till vårt max depth.
         //Detta gör att vi kommer hamna längst ner i vårt träd, sedan börja rekusivt att ta det bästa resultatet här nerifrån.
-        System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
+       // System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
         if(depth < m_maxDepth) {
             
             //Vi har ännu inte nått vårat sista barn, så gör 6 nya nodes som är olika moves som görs till våra nya barn.
@@ -54,46 +64,55 @@ public class MinMax {
                 if(child.m_GameState.moveIsPossible(i)) {
                     // Om vårt teoretiska move är möjligt så gör det och adda detta som ett legitimt barn till vår parent node.
                     child.m_GameState.makeMove(i);
-                    System.out.println("Possible move: " + i);
+                   // System.out.println("Possible move: " + i);
                     node.AddChild(child, i);
                 }
                 else {
                     //Annars skriver vi att det var ett illegal move.
-                    System.out.println("Illegal move: " + i);
+                    System.out.println("Illegal move: " + i + " at depth: " + depth);
                 }
             }
+            
+            int bestScore = -777;
+            // Initialize bestScore to the worst possible move for both players
+            
             
             //Nu har vi gjort upp mot 6 nya child nodes.
             // Kalla denna rekursiva funktion igen för alla barnen.
+            
+            boolean firstSet = false;
             for(int i = 1; i <= 6; i++) {
-                if(node.getChild(i) != null) {
-                    System.out.println("Recursive shit.");
-                    if(RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth+1, node.getChild(i)) == LOSS) {
-                        System.out.println("Last depth found.");
-                        break;
+                
+                if(node.getChild(i) == null){
+                    System.out.println("Illegal move: " + i);
+                    continue;
+                }
+                
+                if(!firstSet) {
+                    bestScore = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, node.getChild(i));
+                    m_BestMove = i;
+                    firstSet = true;
+                    continue;
+                }
+                
+                int score = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, node.getChild(i));
+                
+                if(m_Player == node.getChild(i).m_GameState.getNextPlayer()) {
+                    if(score > bestScore) {
+                        bestScore = score;
+                        m_BestMove = i;
+                        System.out.println("Player: " + node.m_GameState.getNextPlayer() + " Next Player: " + node.getChild(i).m_GameState.getNextPlayer());
+                    }
+                } else { // other player wants negative score
+                    if(score < bestScore) {
+                        bestScore = score;
+                        m_BestMove = i;
                     }
                 }
             }
-            System.out.println("Return Best child");
-            return GetBestChild(node);
-        }
-        System.out.println("Returning loss");
-        return LOSS;
-    }
-    
-    // Returns the child node that gives the most score to the current player
-    public int GetBestChild(Node node) 
-    {
-        int bestScore = LOSS;
-        for(int i = 1; i <= 6; i++) {
-            if(node.getChild(i) != null) {
-             int score = node.getScore(node.getChild(i).getScore(node.m_GameState.getNextPlayer()));
             
-            if(score > bestScore) {
-                bestScore = score;
-                }
-            }
         }
-        return bestScore;
+        
+        return node.getScore(m_Player);
     }
 }

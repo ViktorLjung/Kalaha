@@ -19,16 +19,11 @@ public class Node {
     }
     
     public int getScore(int player) {
-        return m_GameState.getScore(player);
+        return m_GameState.getScore(player) - m_GameState.getScore(2 / player);
     }
     
     public Node getChild(int index) {
         Node node = m_Children.get(index-1);
-        
-        if(node == null) {
-            //System.out.print("Child " + index + " is invalid.");
-        }
-        
         return node;
     }
     
