@@ -3,10 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+<<<<<<< HEAD
 /*
 package ai;
 import ai.AIClient.*;
 import kalaha.*;
+=======
+package ai;
+
+import kalaha.GameState;
+
+>>>>>>> origin/master
 
 
 class Node {
@@ -23,7 +30,10 @@ public class MinMaxTree {
     {
         m_depthLevel = depthLevel;
         m_RootNode = new Node();
+<<<<<<< HEAD
         m_RootNode.m_Children = new Node[6];
+=======
+>>>>>>> origin/master
         m_RootNode.m_State = currentState;
         m_Player = player;
         
@@ -33,6 +43,7 @@ public class MinMaxTree {
         //When done go back and calculate the score.
     }
     
+<<<<<<< HEAD
     public int SearchNextMove() 
     {
         int BestMove = -1;
@@ -47,10 +58,27 @@ public class MinMaxTree {
         int BestScore = 0;
         int ReturnScore = 0;
         int BestMove = -1000000;
+=======
+    public int SearchNextMove(Node parent) 
+    {
+        int BestMove = -1;
+        
+        BestMove = EvaluateMove(5, parent);
+        
+        return BestMove;
+    }
+    
+   public int EvaluateMove(int level, Node node)
+    {
+        int BestScore = 0;
+        int ReturnScore = 0;
+        int BestMove = -1;
+>>>>>>> origin/master
         
         level--;
         for(int i = 0; i < 6; i++)
         {
+<<<<<<< HEAD
             
             //Make sure the move we wanna try is valid
             if(!node.m_State.moveIsPossible(i+1)){
@@ -85,3 +113,24 @@ public class MinMaxTree {
     }
 }
 */
+=======
+            //Make sure the move we wanna try is valid
+            if(!node.m_State.moveIsPossible(i)){
+                continue;
+            }
+            Node cNode = new Node();
+            cNode.m_State = node.m_State.clone();
+            cNode.m_State.makeMove(i);
+            
+            node.m_Children[i] = cNode;
+            
+            if(level > 0) {
+                ReturnScore = EvaluateMove(level-1, node.m_Children[i]);
+                //node.m_State.
+            }
+        }
+        
+        return BestScore;
+    }
+}
+>>>>>>> origin/master
