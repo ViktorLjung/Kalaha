@@ -77,19 +77,12 @@ public class MinMax {
             return 0;
         }
         
-        
-        
         //Vi kallar sedan denna funktion så länge vi inte har kommit till vårt max depth.
         //Detta gör att vi kommer hamna längst ner i vårt träd, sedan börja rekusivt att ta det bästa resultatet här nerifrån.
        // System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
         if(depth < maxDepth) {
             //Vi har ännu inte nått vårat sista barn, så gör 6 nya nodes som är olika moves som görs till våra nya barn.
             for(int i = 1; i <= 6; i++){
-                if(System.currentTimeMillis() - startT >= MaxTime)
-                {
-                    aborted = true;
-                    return 0;
-                }
                 // Skapa ett nytt barn som vi kan använda för att kolla om vårt nya move är bättre.
                 Node child = new Node();
                 //Clona över vårat current gamestate till vårt nya barn.
@@ -110,30 +103,17 @@ public class MinMax {
             int bestScore = -777;
             // Initialize bestScore to the worst possible move for both players
             
-            
             //Nu har vi gjort upp mot 6 nya child nodes.
             // Kalla denna rekursiva funktion igen för alla barnen.
             
             boolean firstSet = false;
             for(int i = 1; i <= 6; i++) {
-                if(System.currentTimeMillis() - startT >= MaxTime)
-                {
-                    aborted = true;
-                    return 0;
-                }
-                
-                
                 if(node.getChild(i) == null){
                     continue;
                 }
                 
                 if(!firstSet) {
                     bestScore = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, maxDepth, node.getChild(i));
-                    if(System.currentTimeMillis() - startT >= MaxTime)
-                    {
-                        aborted = true;
-                        return 0;
-                    }
                     
                     if(node == m_RootNode) {
                             m_BestMove = i;
@@ -148,7 +128,6 @@ public class MinMax {
                     aborted = true;
                     return 0;
                 }
-                
                 
                 if(m_Player == player) {
                     if(score > bestScore) {
