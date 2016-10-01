@@ -9,9 +9,6 @@ public class MinMax {
     // Other Player
     private int m_OtherPlayer;
     
-    // maxDepth är hur långt ner trädet kommer att söka.
-    private int m_maxDepth;
-    
     // Our first node, the node containing the board state when we first start 
     // searching for our move.
     private ai.Node m_RootNode;
@@ -24,12 +21,11 @@ public class MinMax {
     public int m_BestMove = -1;
     long startT;
     
-    public MinMax(int player, int maxDepth, GameState currentBoardState)
+    public MinMax(int player, GameState currentBoardState)
     {
         // Först initializerar vi våra variabler.
         m_Player = player;
         m_OtherPlayer = 2 / player;
-        m_maxDepth = maxDepth;
         m_RootNode = new ai.Node();
         m_RootNode.m_GameState = currentBoardState;
         
@@ -44,14 +40,15 @@ public class MinMax {
       //  System.out.println("---------------------");
       
       //itterative deepening?
-       // startT = System.currentTimeMillis();
-        //while(System.currentTimeMillis() - startT < 1000) {
-         //   m_maxDepth++;
-        //    System.out.println("Depth: " + m_maxDepth);
+        startT = System.currentTimeMillis();
+        int itDepth = 1;
+        while(System.currentTimeMillis() - startT < 1000) {
+            itDepth++;
+            System.out.println("Depth: " + itDepth);
         
-            RecursiveNodeSearch(m_Player, 0, m_RootNode);
+            RecursiveNodeSearch(m_Player, 0, itDepth, m_RootNode);
             
-      //  }
+        }
         return m_BestMove;
     }
     
@@ -59,12 +56,12 @@ public class MinMax {
     
     // Player är den spelare som skall göra moven från detta board state.
     // depth är vilken nivå i trädet vi söker på just nu.
-    public int RecursiveNodeSearch(int player, int depth, Node node)
+    public int RecursiveNodeSearch(int player, int depth, int maxDepth, Node node)
     {
         //Vi kallar sedan denna funktion så länge vi inte har kommit till vårt max depth.
         //Detta gör att vi kommer hamna längst ner i vårt träd, sedan börja rekusivt att ta det bästa resultatet här nerifrån.
        // System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
-        if(depth < m_maxDepth) {
+        if(depth < maxDepth) {
             //Vi har ännu inte nått vårat sista barn, så gör 6 nya nodes som är olika moves som görs till våra nya barn.
             for(int i = 1; i <= 6; i++){
                 // Skapa ett nytt barn som vi kan använda för att kolla om vårt nya move är bättre.
@@ -99,7 +96,7 @@ public class MinMax {
                 }
                 
                 if(!firstSet) {
-                    bestScore = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, node.getChild(i));
+                    bestScore = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, maxDepth, node.getChild(i));
                     if(node == m_RootNode) {
                             m_BestMove = i;
                         }
@@ -107,7 +104,7 @@ public class MinMax {
                     continue;
                 }
                 
-                int score = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, node.getChild(i));
+                int score = RecursiveNodeSearch(node.getChild(i).m_GameState.getNextPlayer(), depth + 1, maxDepth, node.getChild(i));
                 
                 if(m_Player == player) {
                     if(score > bestScore) {

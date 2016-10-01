@@ -212,7 +212,7 @@ public class AIClient implements Runnable
      */
     public int getMove(GameState currentBoard)
     {
-        MinMax m = new MinMax(player, 6, currentBoard);
+        MinMax m = new MinMax(player, currentBoard);
         int myMove = m.GetNextMove();
         addText("Ai move: " + myMove);
         return myMove;
