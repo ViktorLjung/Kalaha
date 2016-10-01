@@ -32,6 +32,7 @@ public class MinMax {
         //Skicka in våran node som håller vårat current board state till vår
         //Rekursiva funktion.
         
+        //Test github :)
     }
     
     public int GetNextMove() {
