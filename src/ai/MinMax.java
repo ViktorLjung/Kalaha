@@ -4,7 +4,7 @@ import ai.AIClient;
 import kalaha.GameState;
 
 public class MinMax {
-    // Player är vilken spelarnummer vår bot har.
+    // Player, the player number of the AI-bot
     private int m_Player;
     // Other Player
     private int m_OtherPlayer;
@@ -26,49 +26,38 @@ public class MinMax {
     
     public MinMax(int player, GameState currentBoardState)
     {
-        // Först initializerar vi våra variabler.
+        //First we initialize our variables
         m_Player = player;
         m_OtherPlayer = 2 / player;
         m_RootNode = new ai.Node();
         m_RootNode.m_GameState = currentBoardState;
-        
-        //Skicka in våran node som håller vårat current board state till vår
-        //Rekursiva funktion.
-        
-        //Test github :)
     }
     
     public int GetNextMove() {
-      //  System.out.println("---------------------");
-      //  System.out.println("Starting new tree");
-      //  System.out.println("---------------------");
-      
-      //itterative deepening?
+      //itterative deepening
         startT = System.currentTimeMillis();
         int itDepth = 1;
         
         int bestmove = -1;
         
         while(System.currentTimeMillis() - startT < MaxTime) {
+            //If we have time left, increese the mamimum depth and search again
             itDepth++;
             System.out.println("Depth: " + itDepth);
-        
             RecursiveNodeSearch(m_Player, 0, itDepth, m_RootNode);
             
             if(!aborted) {
+                //If the search was not aborted we have a new best move
                 bestmove = m_BestMove;
             }
         }
-        
-        
-        System.out.println("Time: " + (System.currentTimeMillis() - startT));
         return bestmove;
     }
     
-    
-    
-    // Player är den spelare som skall göra moven från detta board state.
-    // depth är vilken nivå i trädet vi söker på just nu.
+    // Player, is the current player for this node
+    // depth, how deep we har in the tree
+    // maxDepth, the maximum depth we can go until we return
+    // node, the current node
     public int RecursiveNodeSearch(int player, int depth, int maxDepth, Node node)
     {
         if(System.currentTimeMillis() - startT >= MaxTime)
@@ -77,34 +66,28 @@ public class MinMax {
             return 0;
         }
         
-        //Vi kallar sedan denna funktion så länge vi inte har kommit till vårt max depth.
-        //Detta gör att vi kommer hamna längst ner i vårt träd, sedan börja rekusivt att ta det bästa resultatet här nerifrån.
-       // System.out.println("Max: " + m_maxDepth + " - depth: " + depth);
+        //We keep on calling this recursive method as long as we haven't reached the maximum depth
+        //This makes it so that we start returning when we reach the bottom, aka depth first
         if(depth < maxDepth) {
-            //Vi har ännu inte nått vårat sista barn, så gör 6 nya nodes som är olika moves som görs till våra nya barn.
+            //If maxDepth has not been reached, expand the node tree
             for(int i = 1; i <= 6; i++){
-                // Skapa ett nytt barn som vi kan använda för att kolla om vårt nya move är bättre.
+                //Create a new child
                 Node child = new Node();
-                //Clona över vårat current gamestate till vårt nya barn.
+                //Clone the gamestate to the new child
                 child.m_GameState = node.m_GameState.clone();
-                //Kolla om vårt move är möjligt.
+                //Check if the move is possible
                 if(child.m_GameState.moveIsPossible(i)) {
-                    // Om vårt teoretiska move är möjligt så gör det och adda detta som ett legitimt barn till vår parent node.
+                    //If out theoretical move is possible, do it and add this as a legitimate child for the parent node
                     child.m_GameState.makeMove(i);
-                   // System.out.println("Possible move: " + i);
                     node.AddChild(child, i);
-                }
-                else {
-                    //Annars skriver vi att det var ett illegal move.
-                    //System.out.println("Illegal move: " + i + " at depth: " + depth);
                 }
             }
             
             int bestScore = -777;
             // Initialize bestScore to the worst possible move for both players
             
-            //Nu har vi gjort upp mot 6 nya child nodes.
-            // Kalla denna rekursiva funktion igen för alla barnen.
+            //Now we have made up to 6 new child nodes
+            // Call the recursive method again for all the valid children
             
             boolean firstSet = false;
             for(int i = 1; i <= 6; i++) {
@@ -145,10 +128,7 @@ public class MinMax {
                         }
                     }
                 }
-                //System.out.println("Node: " + i + " Depth: " + depth + " Score: " + score);
-                
             }
-           // System.out.println("Best score: " + bestScore + " Best move: " + m_BestMove);
             return bestScore;
         }
         
